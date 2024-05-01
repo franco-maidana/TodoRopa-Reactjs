@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 function Login() {
@@ -12,14 +12,16 @@ function Login() {
         password: password,
       };
 
-      const response = await axios.post("http://localhost:8080/api/session/login", data);
+      const response = await axios.post("http://localhost:8080/api/auth/login", data);
 
       console.log("ESTO ES RESPONSE", response.data);
       alert(response.data.message);
 
       if (response.data.statusCode === 200) {
+        // Guardar el token en localStorage
+        localStorage.setItem('token', response.data.token);
+        // Redirigir a la página principal u otra página
         window.location.replace("/");
-        // localStorage.setItem("token", response.data.token);
       }
     } catch (error) {
       alert(error.message);
